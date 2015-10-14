@@ -88,8 +88,7 @@
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      // FIXME Use something other than call to this.rows() if available ?
-      return _.range(this.rows().length).some(function(rowIndex) {
+      return _.range(this.get('n')).some(function(rowIndex) {
         return this.hasRowConflictAt(rowIndex);
       }.bind(this));
     },
