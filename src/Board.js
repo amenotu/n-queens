@@ -100,12 +100,17 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var result = this.rows().reduce(function(numFound, row) {
+        return numFound + row[colIndex];
+      }, 0);
+      return result > 1;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      return _.range(this.get('n')).some(function(colIndex) {
+        return this.hasColConflictAt(colIndex);
+      }.bind(this));
     },
 
 
