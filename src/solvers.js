@@ -98,7 +98,7 @@ window.countNQueensSolutions = function(n) {
     // start with the 0th row:
     _findSolutionsForRow(0, colsRemaining);
   }
-
+// foobar
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
