@@ -147,6 +147,7 @@
     hasAnyMajorDiagonalConflicts: function() {
       var firstMajorDiagonalIndex = -(this.get('n') - 2);
       var lastMajorDiagonalIndex = this.get('n') - 2;
+
       return _.range(firstMajorDiagonalIndex, lastMajorDiagonalIndex + 1).some(function(majorDiagonalIndex) {
         return this.hasMajorDiagonalConflictAt(majorDiagonalIndex);
       }.bind(this));
@@ -159,26 +160,13 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalIndex) {
-      // for board.size = 4
-      // if idx = 0
-        // then 3, 0
-      // if idx = 1
-        // then 2, 0
-      // if idx = -1
-        // then 3, 1
-
-      // if idx = 0
-        // then 3, 0
-      // if idx = -1
-        // then 2, 0
-      // if idx = 1
-        // then 3, 1
-      if (minorDiagonalIndex < 0) {
-        var colIndex = this.get('n') - 1 - minorDiagonalIndex;
+      var topRightColIndex = this.get('n') - 1;
+      if (minorDiagonalIndex <= topRightColIndex) {
+        var colIndex = minorDiagonalIndex;
         var rowIndex = 0;
       } else {
-        var colIndex = this.get('n') - 1;
-        var rowIndex = Math.abs(minorDiagonalIndex);
+        var colIndex = topRightColIndex;
+        var rowIndex = minorDiagonalIndex - colIndex;
       }
 
       var diagonal = [];
@@ -198,7 +186,16 @@
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var sqrOnMinorDiagonal = {
+        colIndex: this.get('n') - 1,
+        rowIndex: this.get('n') - 2
+      };
+      var firstMinorDiagonalIndex = 1;
+      var lastMinorDiagonalIndex = sqrOnMinorDiagonal.colIndex + sqrOnMinorDiagonal.rowIndex;
+
+      return _.range(firstMinorDiagonalIndex, lastMinorDiagonalIndex + 1).some(function(minorDiagonalIndex) {
+        return this.hasMinorDiagonalConflictAt(minorDiagonalIndex);
+      }.bind(this));
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
